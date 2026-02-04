@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Para Camila</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Para Camila 💛</title>
 
   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
 
@@ -11,59 +11,65 @@
     body {
       margin: 0;
       font-family: "Playfair Display", serif;
-      background: linear-gradient(180deg, #f7e8b6, #f3ddb0);
+      background: linear-gradient(180deg, #fff8dc, #fff2b3);
       min-height: 100vh;
       display: flex;
       align-items: center;
       justify-content: center;
-      padding: 24px;
+      padding: 20px;
     }
 
     .card {
-      background: #fffdf6;
+      background: #ffffff;
       max-width: 420px;
       padding: 32px 28px;
       border-radius: 18px;
-      box-shadow: 0 14px 35px rgba(0,0,0,.18);
+      box-shadow: 0 14px 35px rgba(0,0,0,0.18);
       text-align: center;
     }
 
     .flores {
       font-size: 26px;
-      margin: 10px 0;
+      margin-bottom: 14px;
     }
 
     h1 {
-      color: #4a3b2f;
+      font-size: 26px;
       margin-bottom: 18px;
     }
 
     p {
-      color: #4a3b2f;
       font-size: 16px;
-      line-height: 1.7;
+      line-height: 1.6;
       margin-bottom: 14px;
     }
 
     .firma {
-      margin-top: 18px;
+      margin-top: 22px;
       font-style: italic;
     }
 
-    .hint {
-      margin-top: 18px;
-      font-size: 13px;
-      color: #7a6a55;
+    .musica {
+      margin-top: 28px;
+    }
+
+    button {
+      background: #1db954;
+      color: white;
+      border: none;
+      border-radius: 999px;
+      padding: 12px 26px;
+      font-size: 15px;
+      cursor: pointer;
+      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+    }
+
+    button:hover {
+      background: #159c45;
     }
   </style>
 </head>
-
 <body>
-
-  <!-- AUDIO -->
-  <audio id="music" autoplay loop>
-    <source src="flores-amarillas.mp3" type="audio/mpeg">
-  </audio>
 
   <div class="card">
     <div class="flores">🌼🌼🌼</div>
@@ -81,34 +87,46 @@
     </p>
 
     <p>
-      Ojalá este pequeño detalle te guste y te acompañe hoy.
+      Ojalá este pequeño detalle te acompañe hoy.
     </p>
 
-    <p class="firma">
-      Con cariño,<br>
+    <div class="firma">
+      Con cariño,<br/>
       Richard
-    </p>
+    </div>
 
     <div class="flores">🌼🌼🌼</div>
 
-    <div class="hint">
-      🌼 Si el sonido no comienza de inmediato,<br>
-      toca cualquier parte de la pantalla.
+    <div class="musica">
+      <p style="font-size:14px;">
+        Si quieres, puedes escuchar esta canción mientras lees esta cartita 💛
+      </p>
+
+      <audio id="audio" preload="auto">
+        <source src="./flores-amarillas.mp3" type="audio/mpeg">
+      </audio>
+
+      <button id="btn">▶ Escuchar</button>
     </div>
   </div>
 
   <script>
-    const audio = document.getElementById("music");
+    const audio = document.getElementById("audio");
+    const btn = document.getElementById("btn");
 
-    // Intento forzado de reproducción
-    window.addEventListener("load", () => {
-      audio.play().catch(() => {});
+    btn.addEventListener("click", async () => {
+      try {
+        if (audio.paused) {
+          await audio.play();
+          btn.textContent = "⏸ Pausar";
+        } else {
+          audio.pause();
+          btn.textContent = "▶ Escuchar";
+        }
+      } catch (e) {
+        alert("Toca el botón otra vez para que suene 💛");
+      }
     });
-
-    // Primer toque desbloquea audio (iOS / Chrome)
-    document.body.addEventListener("click", () => {
-      audio.play().catch(() => {});
-    }, { once: true });
   </script>
 
 </body>
