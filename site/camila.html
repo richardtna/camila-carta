@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para Camila</title>
+
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+
+  <style>
+    body {
+      margin: 0;
+      font-family: "Playfair Display", serif;
+      background: linear-gradient(180deg, #f7e8b6, #f3ddb0);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 24px;
+    }
+
+    .card {
+      background: #fffdf6;
+      max-width: 420px;
+      padding: 32px 28px;
+      border-radius: 18px;
+      box-shadow: 0 14px 35px rgba(0,0,0,.18);
+      text-align: center;
+    }
+
+    .flores {
+      font-size: 26px;
+      margin: 10px 0;
+    }
+
+    h1 {
+      color: #4a3b2f;
+      margin-bottom: 18px;
+    }
+
+    p {
+      color: #4a3b2f;
+      font-size: 16px;
+      line-height: 1.7;
+      margin-bottom: 14px;
+    }
+
+    .firma {
+      margin-top: 18px;
+      font-style: italic;
+    }
+
+    .hint {
+      margin-top: 18px;
+      font-size: 13px;
+      color: #7a6a55;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- AUDIO -->
+  <audio id="music" autoplay loop>
+    <source src="flores-amarillas.mp3" type="audio/mpeg">
+  </audio>
+
+  <div class="card">
+    <div class="flores">🌼🌼🌼</div>
+
+    <h1>Querida Camila,</h1>
+
+    <p>
+      Tal vez no esperabas esta sorpresa, pero no quise dejar pasar la oportunidad
+      de sacarte una sonrisa y alegrarte un poquito el día.
+    </p>
+
+    <p>
+      Aunque todavía no podamos vernos, te tengo presente y quería recordarte que,
+      incluso en los momentos más difíciles, mereces cosas bonitas.
+    </p>
+
+    <p>
+      Ojalá este pequeño detalle te guste y te acompañe hoy.
+    </p>
+
+    <p class="firma">
+      Con cariño,<br>
+      Richard
+    </p>
+
+    <div class="flores">🌼🌼🌼</div>
+
+    <div class="hint">
+      🌼 Si el sonido no comienza de inmediato,<br>
+      toca cualquier parte de la pantalla.
+    </div>
+  </div>
+
+  <script>
+    const audio = document.getElementById("music");
+
+    // Intento forzado de reproducción
+    window.addEventListener("load", () => {
+      audio.play().catch(() => {});
+    });
+
+    // Primer toque desbloquea audio (iOS / Chrome)
+    document.body.addEventListener("click", () => {
+      audio.play().catch(() => {});
+    }, { once: true });
+  </script>
+
+</body>
+</html>
