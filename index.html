@@ -1,133 +1,122 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Para Camila 💛</title>
-
-  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital@0;1&display=swap" rel="stylesheet">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Para Camila</title>
 
   <style>
-    body {
-      margin: 0;
-      font-family: "Playfair Display", serif;
-      background: linear-gradient(180deg, #fff8dc, #fff2b3);
-      min-height: 100vh;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      padding: 20px;
+    body{
+      margin:0; min-height:100vh; display:flex; justify-content:center; align-items:center;
+      background: linear-gradient(180deg, #f7e6b0, #f3d3a0);
+      font-family: Georgia, "Times New Roman", serif;
+      padding: 24px;
     }
-
-    .card {
-      background: #ffffff;
-      max-width: 420px;
-      padding: 32px 28px;
-      border-radius: 18px;
-      box-shadow: 0 14px 35px rgba(0,0,0,0.18);
-      text-align: center;
+    .card{
+      background: rgba(255,255,255,.75);
+      width: min(520px, 92vw);
+      border-radius: 22px;
+      padding: 28px 22px;
+      text-align:center;
+      box-shadow: 0 18px 50px rgba(0,0,0,.18);
+      backdrop-filter: blur(6px);
     }
-
-    .flores {
-      font-size: 26px;
-      margin-bottom: 14px;
-    }
-
-    h1 {
-      font-size: 26px;
-      margin-bottom: 18px;
-    }
-
-    p {
-      font-size: 16px;
-      line-height: 1.6;
-      margin-bottom: 14px;
-    }
-
-    .firma {
-      margin-top: 22px;
-      font-style: italic;
-    }
-
-    .musica {
-      margin-top: 28px;
-    }
-
-    button {
-      background: #1db954;
-      color: white;
-      border: none;
+    h1{ margin: 10px 0 14px; font-size: 34px; font-weight: 600; }
+    p{ margin: 12px 0; font-size: 18px; line-height: 1.65; }
+    .flowers{ font-size: 22px; margin: 6px 0 14px; }
+    .cta{ margin-top: 18px; font-size: 16px; opacity: .9; }
+    button{
+      margin-top: 12px;
+      border:0; padding: 12px 22px;
       border-radius: 999px;
-      padding: 12px 26px;
-      font-size: 15px;
-      cursor: pointer;
-      box-shadow: 0 6px 18px rgba(0,0,0,0.25);
+      font-size: 16px;
+      background: #157a3b;
+      color: white;
+      font-weight: 600;
     }
-
-    button:hover {
-      background: #159c45;
-    }
+    .hint{ margin-top:10px; font-size: 14px; opacity:.8; }
   </style>
 </head>
+
 <body>
-
   <div class="card">
-    <div class="flores">🌼🌼🌼</div>
-
+    <div class="flowers">🌼🌼🌼</div>
     <h1>Querida Camila,</h1>
 
-    <p>
-      Tal vez no esperabas esta sorpresa, pero no quise dejar pasar la oportunidad
-      de sacarte una sonrisa y alegrarte un poquito el día.
-    </p>
+    <p>Tal vez no esperabas esta sorpresa, pero no quise dejar pasar la oportunidad de sacarte una sonrisa y alegrarte un poquito el día.</p>
 
-    <p>
-      Aunque todavía no podamos vernos, te tengo presente y quería recordarte que,
-      incluso en los momentos más difíciles, mereces cosas bonitas.
-    </p>
+    <p>Aunque todavía no podamos vernos, te tengo presente y quería recordarte que, incluso en los momentos más difíciles, mereces cosas bonitas.</p>
 
-    <p>
-      Ojalá este pequeño detalle te acompañe hoy.
-    </p>
+    <p>Ojalá este pequeño detalle te guste y te acompañe hoy.</p>
 
-    <div class="firma">
-      Con cariño,<br/>
-      Richard
-    </div>
+    <p><em>Con cariño,</em><br><em>Richard</em></p>
 
-    <div class="flores">🌼🌼🌼</div>
+    <div class="flowers">🌼🌼🌼</div>
 
-    <div class="musica">
-      <p style="font-size:14px;">
-        Si quieres, puedes escuchar esta canción mientras lees esta cartita 💛
-      </p>
-
-      <audio id="audio" preload="auto">
-        <source src="./flores-amarillas.mp3" type="audio/mpeg">
-      </audio>
-
-      <button id="btn">▶ Escuchar</button>
-    </div>
+    <div class="cta">Puedes escuchar esta canción mientras lees esta cartita 💛</div>
+    <button id="playBtn">▶ Escuchar</button>
+    <div class="hint" id="msg"></div>
   </div>
 
-  <script>
-    const audio = document.getElementById("audio");
-    const btn = document.getElementById("btn");
+  <!-- Audio -->
+  <audio id="player" preload="auto"></audio>
 
-    btn.addEventListener("click", async () => {
-      try {
-        if (audio.paused) {
-          await audio.play();
-          btn.textContent = "⏸ Pausar";
+  <script>
+    // ✅ CAMBIA ESTA RUTA SEGÚN TU CASO:
+    // Si el mp3 está junto a index.html:
+    const AUDIO_FILE = "./flores-amarillas.mp3";
+    // Si tu mp3 está dentro de /site/ y tu página está en la raíz, usa:
+    // const AUDIO_FILE = "./site/flores-amarillas.mp3";
+
+    const player = document.getElementById("player");
+    const playBtn = document.getElementById("playBtn");
+    const msg = document.getElementById("msg");
+
+    let started = false;
+
+    function setMessage(text){ msg.textContent = text || ""; }
+
+    function startAudioFromGesture(){
+      // iPhone: el play() debe ocurrir DIRECTO dentro del gesto (tap)
+      if (!player.src) player.src = AUDIO_FILE;
+
+      player.volume = 1.0;
+
+      const p = player.play();
+      if (p && typeof p.then === "function") {
+        p.then(() => {
+          started = true;
+          playBtn.textContent = "⏸ Pausar";
+          setMessage("");
+        }).catch(() => {
+          // Si falla, suele ser ruta mala o el sistema bloqueó el intento
+          setMessage("Si no suena, revisa la ruta del MP3 (que exista).");
+        });
+      }
+    }
+
+    playBtn.addEventListener("click", (e) => {
+      e.preventDefault();
+      if (!started) {
+        startAudioFromGesture();
+      } else {
+        if (player.paused) {
+          startAudioFromGesture();
         } else {
-          audio.pause();
-          btn.textContent = "▶ Escuchar";
+          player.pause();
+          playBtn.textContent = "▶ Escuchar";
         }
-      } catch (e) {
-        alert("Toca el botón otra vez para que suene 💛");
       }
     });
-  </script>
 
+    // Bonus: primer toque en cualquier parte intenta arrancar
+    document.addEventListener("touchstart", () => {
+      if (!started) startAudioFromGesture();
+    }, { passive: true });
+
+    document.addEventListener("click", () => {
+      if (!started) startAudioFromGesture();
+    });
+  </script>
 </body>
 </html>
